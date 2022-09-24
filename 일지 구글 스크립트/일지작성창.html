@@ -1,15 +1,15 @@
-<meta charset="utf-8">
+<meta charSet="utf-8">
 <!-- Tab links -->
-<div class="tab">
-    <button class="tablinks" onclick="openTab(event, '운영일지작성')" id="defaultOpen">운영일지작성</button>
-    <button class="tablinks" onclick="openTab(event, 'DB번호검색')">DB번호검색</button>
+<div className="tab">
+    <button className="tablinks" onClick="openTab(event, '운영일지작성')" id="defaultOpen">운영일지작성</button>
+    <button className="tablinks" onClick="openTab(event, 'DB번호검색')">DB번호검색</button>
 </div>
 
 <!-- Tab content -->
-<div id="운영일지작성" class="tabcontent">
-    <input class = "input_1" name="input" id="year" maxlength="4" style="width: 35px">년
-    <input class = "input_1" name="input" id="month" maxlength="2" style="width: 20px">월
-    <input class = "input_1" name="input" id="date" maxlength="2" style="width: 20px">일
+<div id="운영일지작성" className="tabcontent">
+    <input className="input_1" name="input" id="year" maxLength="4" style="width: 35px">년
+    <input className="input_1" name="input" id="month" maxLength="2" style="width: 20px">월
+    <input className="input_1" name="input" id="date" maxLength="2" style="width: 20px">일
     <br>
     <!-- 구분(정기/추가)<input class = "input_1" name="input" id="operation_type" maxlength="2" style="width: 30px"> -->
     구분(정기/추가)<select id="operation_type">
@@ -18,55 +18,53 @@
     <option value="추가">추가</option>
 </select>
     <br>
-    순서<input class = "input_1" name="input" id="order" maxlength="2" style="width: 20px">
+    순서<input className="input_1" name="input" id="order" maxLength="2" style="width: 20px">
     <br>
-    담당자<input class = "input_1" name="input" id="manager" maxlength="4" style="width: 60px">
+    담당자<input className="input_1" name="input" id="manager" maxLength="4" style="width: 60px">
     <br>
-    이용자 수<input class = "input_1" name="input" id="user_number" maxlength="4" style="width: 35px">
+    이용자 수<input className="input_1" name="input" id="user_number" maxLength="4" style="width: 35px">
     <br><br>
 
-    DB번호<input class = "input_1" name="input" id="DB_number">
+    DB번호<input className="input_1" name="input" id="DB_number">
     <br>
-    <button type="button" onclick="search_DB_autofill()">DB 검색 후 자동 채우기 (3초 정도 걸림)</button>
+    <button type="button" onClick="search_DB_autofill()">DB 검색 후 자동 채우기 (3초 정도 걸림)</button>
     <br><br>
 
-    장르<input class = "input_2" name="input" id="genre" readonly>
+    장르<input className="input_2" name="input" id="genre" readOnly>
     <br>
-    장르번호<input class = "input_2" name="input" id="genre_number" readonly>
+    장르번호<input className="input_2" name="input" id="genre_number" readOnly>
     <br>
-    작곡가<input class = "input_2" name="input" id="composer" readonly>
+    작곡가<input className="input_2" name="input" id="composer" readOnly>
     <br>
-    악곡명<input class = "input_2" name="input" id="music_title" readonly>
+    악곡명<input className="input_2" name="input" id="music_title" readOnly>
     <br>
-    연주자<input class = "input_2" name="input" id="player" readonly>
+    연주자<input className="input_2" name="input" id="player" readOnly>
     <br>
-    앨범명<input class = "input_2" name="input" id="album" readonly>
+    앨범명<input className="input_2" name="input" id="album" readOnly>
     <br>
-    지휘자<input class = "input_2" name="input" id="conductor" readonly>
+    지휘자<input className="input_2" name="input" id="conductor" readOnly>
     <br>
-    레이블<input class = "input_2" name="input" id="album_label" readonly>
+    레이블<input className="input_2" name="input" id="album_label" readOnly>
     <br>
-    발매년도<input class = "input_2" name="input" id="album_year" readonly>
+    발매년도<input className="input_2" name="input" id="album_year" readOnly>
     <br>
-    관현악단<input class = "input_2" name="input" id="orchestra" readonly>
+    관현악단<input className="input_2" name="input" id="orchestra" readOnly>
     <br>
-    합창단<input class = "input_2" name="input" id="choir" readonly>
+    합창단<input className="input_2" name="input" id="choir" readOnly>
     <br>
-    코멘트<input class = "input_2" name="input" id="comment">
+    코멘트<input className="input_2" name="input" id="comment">
     <br><br>
-    <button type="button" onclick="enroll_Log()">일지 등록</button>
+    <button type="button" onClick="enroll_Log()">일지 등록</button>
     <br><br>
 
 </div>
 
-<div id="DB번호검색" class="tabcontent">
+<div id="DB번호검색" className="tabcontent">
     <h3>Paris</h3>
     <p>Paris is the capital of France.</p>
 </div>
 
 </div>
-
-
 
 
 <style>
@@ -114,18 +112,17 @@
 </style>
 
 
-
 <script>
     document.getElementById("defaultOpen").click();
 
-    function clearByTagClass(tagClass){
+    function clearByTagClass(tagClass) {
         var secBankFields = document.getElementsByClassName(tagClass);
         for (var i = 0; i < secBankFields.length; ++i) {
             secBankFields[i].value = '';
         }
     }
 
-    function clearByTagName(tagName){
+    function clearByTagName(tagName) {
         var secBankFields = document.getElementsByTagName(tagName);
         for (var i = 0; i < secBankFields.length; ++i) {
             secBankFields[i].value = '';
@@ -156,7 +153,7 @@
         evt.currentTarget.className += " active";
 
         // 운영일지작성 탭 누르면 년/월/일은 현재 날짜 그대로 읽어오기
-        if(tab_name == "운영일지작성"){
+        if (tab_name == "운영일지작성") {
             var date = new Date();
             document.getElementById("year").value = date.getFullYear();
             document.getElementById("month").value = date.getMonth() + 1;
@@ -164,14 +161,14 @@
         }
     }
 
-    function search_DB_autofill(){
+    function search_DB_autofill() {
         var DB_number = document.getElementById("DB_number").value;
-        if(DB_number == ""){
+        if (DB_number == "") {
             alert("오류: DB번호가 비어 있습니다");
             return;
         }
         clearByTagClass("input_2");
-        google.script.run.withSuccessHandler(data =>{
+        google.script.run.withSuccessHandler(data => {
             document.getElementById("genre").value = data["genre"];
             document.getElementById("genre_number").value = data["genre_number"];
             document.getElementById("composer").value = data["composer"];
@@ -186,10 +183,12 @@
         }).search_DB_return_values(DB_number);
     }
 
-    function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
+    function isNumber(n) {
+        return /^-?[\d.]+(?:e-?\d+)?$/.test(n);
+    }
 
-    function check_input_error_before_enroll(){
-        if(document.getElementById("genre").value == ""){
+    function check_input_error_before_enroll() {
+        if (document.getElementById("genre").value == "") {
             alert("오류: 일지에 등록할 값이 없습니다\nDB 번호 검색 버튼을 눌러 값을 등록해주세요");
             return 1;
         }
@@ -199,36 +198,36 @@
         var month = Number(document.getElementById("month").value);
         var date = Number(document.getElementById("date").value);
         var operation_type = document.getElementById("operation_type").value;
-        if(operation_type=="--"){
+        if (operation_type == "--") {
             alert("오류: 정기/추가 운영 구분을 선택하지 않았습니다");
             return 1;
         }
         var order = Number(document.getElementById("order").value);
         var manager = document.getElementById("manager").value;
         var user_number = Number(document.getElementById("user_number").value);
-        if(isNumber(year) && isNumber(month) && isNumber(date) && isNumber(order) && isNumber(user_number)){}
-        else{
+        if (isNumber(year) && isNumber(month) && isNumber(date) && isNumber(order) && isNumber(user_number)) {
+        } else {
             alert("오류: 연도, 월, 일, 순서, 이용자 수 중에 숫자가 아닌 것이 입력되었습니다");
             return 1;
         }
         // alert(current_year);
         // alert(typeof current_year);
 
-        if(year < 1977 || year > current_year){
+        if (year < 1977 || year > current_year) {
             alert("오류: 1977보다 작거나 " + String(current_year) + "보다 큰 연도를 입력되었습니다");
             return 1;
         }
 
-        if(month < 1 || month > 12){
+        if (month < 1 || month > 12) {
             alert("오류: 1보다 작거나 12보다 큰 월을 입력되었습니다");
             return 1;
         }
 
-        if(date < 1){
+        if (date < 1) {
             alert("오류: 1보다 작은 일을 입력되었습니다");
             return 1;
         }
-        switch(month){
+        switch (month) {
             case 1:
             case 3:
             case 5:
@@ -236,7 +235,7 @@
             case 8:
             case 10:
             case 12:
-                if(date > 31){
+                if (date > 31) {
                     alert("오류: 31보다 큰 일이 입력되었습니다");
                     return 1;
                 }
@@ -244,12 +243,12 @@
             case 6:
             case 9:
             case 11:
-                if(date > 30){
+                if (date > 30) {
                     alert("오류: 30보다 큰 일이 입력되었습니다");
                     return 1;
                 }
             case 2:
-                if(date > 28){
+                if (date > 28) {
                     alert("오류: 28보다 큰 일이 입력되었습니다");
                     return 1;
                 }
@@ -257,12 +256,12 @@
                 break;
         }
 
-        if(order < 1){
+        if (order < 1) {
             alert("오류: 1보다 작은 순서가 입력되었습니다");
             return 1;
         }
 
-        if(user_number < 1){
+        if (user_number < 1) {
             alert("오류: 1보다 작은 이용자 수가 입력되었습니다");
             return 1;
         }
@@ -270,8 +269,8 @@
         return 0;
     }
 
-    function enroll_Log(){
-        if(check_input_error_before_enroll()==1){
+    function enroll_Log() {
+        if (check_input_error_before_enroll() == 1) {
             return;
         }
 

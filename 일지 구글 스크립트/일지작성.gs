@@ -26,7 +26,10 @@ function search_DB_return_values(DB_number) {
   var sheet_album_DB = ss.getSheetByName("음반DB");
   var lastRow = sheet_album_DB.getLastRow();
   var lastCol = sheet_album_DB.getLastColumn();
-  var album_DB = sheet_album_DB.getRange(1, 1, lastRow, lastCol).getValues();
+  // var album_DB = sheet_album_DB.getRange(1, 1, lastRow, lastCol).getValues();
+  var album_DB = sheet_album_DB.getRange(1, 1, lastRow, 1).getValues();
+  var searched_Row = 0;
+  var DB_doesnt_exist = 1;
   var target_DB = {
     "genre": "",
     "genre_number": "",
@@ -42,22 +45,48 @@ function search_DB_return_values(DB_number) {
 
   }
 
-  for(var index = 0; index < lastRow; index++){
-    if(album_DB[index][0] == DB_number){
-      target_DB["genre"] = album_DB[index][1];
-      target_DB["genre_number"] = album_DB[index][2];
-      target_DB["composer"] = album_DB[index][3];
-      // target_DB["music_title"] = album_DB[index][];
-      target_DB["player"] = album_DB[index][5];
-      target_DB["album"] = album_DB[index][4];
-      target_DB["conductor"] = album_DB[index][6];
-      target_DB["album_label"] = album_DB[index][10];
-      target_DB["album_year"] = album_DB[index][11];
-      target_DB["orchestra"] = album_DB[index][7];
-      target_DB["choir"] = album_DB[index][8];
+  for(var i = 0; i < lastRow; i++){
+    // Browser.msgBox(album_DB[i][0]);
+    if(album_DB[i][0] == DB_number){
+      searched_Row = i + 1;
+      DB_doesnt_exist = 0;
       break;
     }
   }
+  if(DB_doesnt_exist){
+    Browser.msgBox("오류: 일치하는 DB 번호가 없습니다");
+    return;
+  }
+
+  var searched_DB = sheet_album_DB.getRange(searched_Row, 1, searched_Row, lastCol).getValues();
+  target_DB["genre"] = searched_DB[0][1];
+  target_DB["genre_number"] = searched_DB[0][2];
+  target_DB["composer"] = searched_DB[0][3];
+  // target_DB["music_title"] = searched_DB[0][];
+  target_DB["player"] = searched_DB[0][5];
+  target_DB["album"] = searched_DB[0][4];
+  target_DB["conductor"] = searched_DB[0][6];
+  target_DB["album_label"] = searched_DB[0][10];
+  target_DB["album_year"] = searched_DB[0][11];
+  target_DB["orchestra"] = searched_DB[0][7];
+  target_DB["choir"] = searched_DB[0][8];
+
+  // for(var index = 0; index < lastRow; index++){
+  //   if(album_DB[index][0] == DB_number){
+  //     target_DB["genre"] = album_DB[index][1];
+  //     target_DB["genre_number"] = album_DB[index][2];
+  //     target_DB["composer"] = album_DB[index][3];
+  //     // target_DB["music_title"] = album_DB[index][];
+  //     target_DB["player"] = album_DB[index][5];
+  //     target_DB["album"] = album_DB[index][4];
+  //     target_DB["conductor"] = album_DB[index][6];
+  //     target_DB["album_label"] = album_DB[index][10];
+  //     target_DB["album_year"] = album_DB[index][11];
+  //     target_DB["orchestra"] = album_DB[index][7];
+  //     target_DB["choir"] = album_DB[index][8];
+  //     break;
+  //   }
+  // }
 
   return target_DB;
 }
