@@ -51,10 +51,10 @@ function search_DB_return_values(DB_number) {
       target_DB["player"] = album_DB[index][5];
       target_DB["album"] = album_DB[index][4];
       target_DB["conductor"] = album_DB[index][6];
-      target_DB["album_label"] = album_DB[index][7];
-      target_DB["album_year"] = album_DB[index][8];
-      target_DB["orchestra"] = album_DB[index][9];
-      target_DB["choir"] = album_DB[index][10];
+      target_DB["album_label"] = album_DB[index][10];
+      target_DB["album_year"] = album_DB[index][11];
+      target_DB["orchestra"] = album_DB[index][7];
+      target_DB["choir"] = album_DB[index][8];
       break;
     }
   }

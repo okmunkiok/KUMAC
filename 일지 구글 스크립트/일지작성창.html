@@ -1,83 +1,306 @@
-function showSidebar_writeLog() {
+<meta charset="utf-8">
+<!-- Tab links -->
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, '운영일지작성')" id="defaultOpen">운영일지작성</button>
+    <button class="tablinks" onclick="openTab(event, 'DB번호검색')">DB번호검색</button>
+</div>
 
-// var template = HtmlService.createTemplateFromFile("일지작성창");
+<!-- Tab content -->
+<div id="운영일지작성" class="tabcontent">
+    <input class = "input_1" name="input" id="year" maxlength="4" style="width: 35px">년
+    <input class = "input_1" name="input" id="month" maxlength="2" style="width: 20px">월
+    <input class = "input_1" name="input" id="date" maxlength="2" style="width: 20px">일
+    <br>
+    <!-- 구분(정기/추가)<input class = "input_1" name="input" id="operation_type" maxlength="2" style="width: 30px"> -->
+    구분(정기/추가)<select id="operation_type">
+    <option value="--">--</option>
+    <option value="정기">정기</option>
+    <option value="추가">추가</option>
+</select>
+    <br>
+    순서<input class = "input_1" name="input" id="order" maxlength="2" style="width: 20px">
+    <br>
+    담당자<input class = "input_1" name="input" id="manager" maxlength="4" style="width: 60px">
+    <br>
+    이용자 수<input class = "input_1" name="input" id="user_number" maxlength="4" style="width: 35px">
+    <br><br>
 
-// var html = template.evaluate().setHeight(1000).setWidth(2000);
-// // var html = template.evaluate();
+    DB번호<input class = "input_1" name="input" id="DB_number">
+    <br>
+    <button type="button" onclick="search_DB_autofill()">DB 검색 후 자동 채우기 (3초 정도 걸림)</button>
+    <br><br>
 
-// // SpreadsheetApp.getUi().showSidebar(html);
-// SpreadsheetApp.getUi().showDialog(html);
-// // SpreadsheetApp.getUi().showModalDialog(html);
-// // SpreadsheetApp.getUi().showModelessDialog(html);
-// // return HtmlService.createHtmlOutputFromFile("일지작성창");
-var html = HtmlService.createHtmlOutputFromFile("일지작성창");
-SpreadsheetApp.getUi().showSidebar(html);
-}
+    장르<input class = "input_2" name="input" id="genre" readonly>
+    <br>
+    장르번호<input class = "input_2" name="input" id="genre_number" readonly>
+    <br>
+    작곡가<input class = "input_2" name="input" id="composer" readonly>
+    <br>
+    악곡명<input class = "input_2" name="input" id="music_title" readonly>
+    <br>
+    연주자<input class = "input_2" name="input" id="player" readonly>
+    <br>
+    앨범명<input class = "input_2" name="input" id="album" readonly>
+    <br>
+    지휘자<input class = "input_2" name="input" id="conductor" readonly>
+    <br>
+    레이블<input class = "input_2" name="input" id="album_label" readonly>
+    <br>
+    발매년도<input class = "input_2" name="input" id="album_year" readonly>
+    <br>
+    관현악단<input class = "input_2" name="input" id="orchestra" readonly>
+    <br>
+    합창단<input class = "input_2" name="input" id="choir" readonly>
+    <br>
+    코멘트<input class = "input_2" name="input" id="comment">
+    <br><br>
+    <button type="button" onclick="enroll_Log()">일지 등록</button>
+    <br><br>
 
-function doGet() {
-// return HtmlService.createHtmlOutputFromFile('index.html');
-var template = HtmlService.createTemplateFromFile("index");
-var html = template.evaluate().setHeight(1000).setWidth(2000);
-SpreadsheetApp.getUi().showDialog(html);
-}
+</div>
 
-function search_DB_return_values(DB_number) {
-var ss = SpreadsheetApp.getActiveSpreadsheet();
-var sheet_album_DB = ss.getSheetByName("음반DB");
-var lastRow = sheet_album_DB.getLastRow();
-var lastCol = sheet_album_DB.getLastColumn();
-var album_DB = sheet_album_DB.getRange(1, 1, lastRow, lastCol).getValues();
-var target_DB = {
-"genre": "",
-"genre_number": "",
-"composer": "",
-"music_title": "",
-"player": "",
-"album": "",
-"conductor": "",
-"album_label": "",
-"album_year": "",
-"orchestra": "",
-"choir": "",
+<div id="DB번호검색" class="tabcontent">
+    <h3>Paris</h3>
+    <p>Paris is the capital of France.</p>
+</div>
 
-}
+</div>
 
-for(var index = 0; index < lastRow; index++){
-if(album_DB[index][0] == DB_number){
-target_DB["genre"] = album_DB[index][1];
-target_DB["genre_number"] = album_DB[index][2];
-target_DB["composer"] = album_DB[index][3];
-// target_DB["music_title"] = album_DB[index][];
-target_DB["player"] = album_DB[index][5];
-target_DB["album"] = album_DB[index][4];
-target_DB["conductor"] = album_DB[index][6];
-target_DB["album_label"] = album_DB[index][10];
-target_DB["album_year"] = album_DB[index][11];
-target_DB["orchestra"] = album_DB[index][7];
-target_DB["choir"] = album_DB[index][8];
-break;
-}
-}
 
-return target_DB;
-}
 
-function enroll_Log(enroll_DB){
-var ss = SpreadsheetApp.getActiveSpreadsheet();
-var sheet_manage_DB = ss.getSheetByName("운영DB");
-var lastRow = sheet_manage_DB.getLastRow();
-sheet_manage_DB.getRange(lastRow + 1, 1).setValue(enroll_DB["year"] + "-" + enroll_DB["month"] + "-" + enroll_DB["date"]);
-sheet_manage_DB.getRange(lastRow + 1, 2).setValue(enroll_DB["operation_type"]);
-sheet_manage_DB.getRange(lastRow + 1, 3).setValue(enroll_DB["order"]);
-sheet_manage_DB.getRange(lastRow + 1, 4).setValue(enroll_DB["manager"]);
-sheet_manage_DB.getRange(lastRow + 1, 5).setValue(enroll_DB["DB_number"]);
-sheet_manage_DB.getRange(lastRow + 1, 6).setValue(enroll_DB["genre"]);
-sheet_manage_DB.getRange(lastRow + 1, 7).setValue(enroll_DB["genre_number"]);
-sheet_manage_DB.getRange(lastRow + 1, 8).setValue(enroll_DB["composer"]);
-sheet_manage_DB.getRange(lastRow + 1, 10).setValue(enroll_DB["player"]);
-sheet_manage_DB.getRange(lastRow + 1, 11).setValue(enroll_DB["conductor"]);
-sheet_manage_DB.getRange(lastRow + 1, 12).setValue(enroll_DB["orchestra"]);
-sheet_manage_DB.getRange(lastRow + 1, 13).setValue(enroll_DB["choir"]);
-sheet_manage_DB.getRange(lastRow + 1, 14).setValue(enroll_DB["user_number"]);
-sheet_manage_DB.getRange(lastRow + 1, 15).setValue(enroll_DB["comment"]);
-}
+
+<style>
+    /* Style the tab */
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+    /* Style the buttons that are used to open the tab content */
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+        background-color: #ddd;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+        background-color: #ccc;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+
+    input[readonly] {
+        background-color: lightgray;
+    }
+
+
+</style>
+
+
+
+<script>
+    document.getElementById("defaultOpen").click();
+
+    function clearByTagClass(tagClass){
+        var secBankFields = document.getElementsByClassName(tagClass);
+        for (var i = 0; i < secBankFields.length; ++i) {
+            secBankFields[i].value = '';
+        }
+    }
+
+    function clearByTagName(tagName){
+        var secBankFields = document.getElementsByTagName(tagName);
+        for (var i = 0; i < secBankFields.length; ++i) {
+            secBankFields[i].value = '';
+        }
+    }
+
+    function openTab(evt, tab_name) {
+        // 탭 바꿀 때마다 기존에 있던 값 지움
+        clearByTagName("input");
+
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(tab_name).style.display = "block";
+        evt.currentTarget.className += " active";
+
+        // 운영일지작성 탭 누르면 년/월/일은 현재 날짜 그대로 읽어오기
+        if(tab_name == "운영일지작성"){
+            var date = new Date();
+            document.getElementById("year").value = date.getFullYear();
+            document.getElementById("month").value = date.getMonth() + 1;
+            document.getElementById("date").value = date.getDate();
+        }
+    }
+
+    function search_DB_autofill(){
+        var DB_number = document.getElementById("DB_number").value;
+        if(DB_number == ""){
+            alert("오류: DB번호가 비어 있습니다");
+            return;
+        }
+        clearByTagClass("input_2");
+        google.script.run.withSuccessHandler(data =>{
+            document.getElementById("genre").value = data["genre"];
+            document.getElementById("genre_number").value = data["genre_number"];
+            document.getElementById("composer").value = data["composer"];
+            // document.getElementById("").value = data[""];
+            document.getElementById("player").value = data["player"];
+            document.getElementById("album").value = data["album"];
+            document.getElementById("conductor").value = data["conductor"];
+            document.getElementById("album_label").value = data["album_label"];
+            document.getElementById("album_year").value = data["album_year"];
+            document.getElementById("orchestra").value = data["orchestra"];
+            document.getElementById("choir").value = data["choir"];
+        }).search_DB_return_values(DB_number);
+    }
+
+    function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
+
+    function check_input_error_before_enroll(){
+        if(document.getElementById("genre").value == ""){
+            alert("오류: 일지에 등록할 값이 없습니다\nDB 번호 검색 버튼을 눌러 값을 등록해주세요");
+            return 1;
+        }
+        var date = new Date();
+        var current_year = Number(date.getFullYear());
+        var year = Number(document.getElementById("year").value);
+        var month = Number(document.getElementById("month").value);
+        var date = Number(document.getElementById("date").value);
+        var operation_type = document.getElementById("operation_type").value;
+        if(operation_type=="--"){
+            alert("오류: 정기/추가 운영 구분을 선택하지 않았습니다");
+            return 1;
+        }
+        var order = Number(document.getElementById("order").value);
+        var manager = document.getElementById("manager").value;
+        var user_number = Number(document.getElementById("user_number").value);
+        if(isNumber(year) && isNumber(month) && isNumber(date) && isNumber(order) && isNumber(user_number)){}
+        else{
+            alert("오류: 연도, 월, 일, 순서, 이용자 수 중에 숫자가 아닌 것이 입력되었습니다");
+            return 1;
+        }
+        // alert(current_year);
+        // alert(typeof current_year);
+
+        if(year < 1977 || year > current_year){
+            alert("오류: 1977보다 작거나 " + String(current_year) + "보다 큰 연도를 입력되었습니다");
+            return 1;
+        }
+
+        if(month < 1 || month > 12){
+            alert("오류: 1보다 작거나 12보다 큰 월을 입력되었습니다");
+            return 1;
+        }
+
+        if(date < 1){
+            alert("오류: 1보다 작은 일을 입력되었습니다");
+            return 1;
+        }
+        switch(month){
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                if(date > 31){
+                    alert("오류: 31보다 큰 일이 입력되었습니다");
+                    return 1;
+                }
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                if(date > 30){
+                    alert("오류: 30보다 큰 일이 입력되었습니다");
+                    return 1;
+                }
+            case 2:
+                if(date > 28){
+                    alert("오류: 28보다 큰 일이 입력되었습니다");
+                    return 1;
+                }
+            default:
+                break;
+        }
+
+        if(order < 1){
+            alert("오류: 1보다 작은 순서가 입력되었습니다");
+            return 1;
+        }
+
+        if(user_number < 1){
+            alert("오류: 1보다 작은 이용자 수가 입력되었습니다");
+            return 1;
+        }
+
+        return 0;
+    }
+
+    function enroll_Log(){
+        if(check_input_error_before_enroll()==1){
+            return;
+        }
+
+        var enroll_DB = {
+            "year": document.getElementById("year").value,
+            "month": document.getElementById("month").value,
+            "date": document.getElementById("date").value,
+            "operation_type": document.getElementById("operation_type").value,
+            "order": document.getElementById("order").value,
+            "manager": document.getElementById("manager").value,
+            "user_number": document.getElementById("user_number").value,
+            "DB_number": document.getElementById("DB_number").value,
+            "genre": document.getElementById("genre").value,
+            "genre_number": document.getElementById("genre_number").value,
+            "composer": document.getElementById("composer").value,
+            //
+            "player": document.getElementById("player").value,
+            "album": document.getElementById("album").value,
+            "conductor": document.getElementById("conductor").value,
+            "album_label": document.getElementById("album_label").value,
+            "album_year": document.getElementById("album_year").value,
+            "orchestra": document.getElementById("orchestra").value,
+            "choir": document.getElementById("choir").value,
+            "comment": document.getElementById("comment").value,
+        }
+        google.script.run.enroll_Log(enroll_DB);
+
+        document.getElementById("order").value = "";
+        document.getElementById("user_number").value = "";
+        document.getElementById("operation_type").value = "--";
+    }
+</script>
