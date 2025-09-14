@@ -1,6 +1,6 @@
 # 🎵 클래식 음악 감상 동아리 운영일지 자동화 S/W
 
-Google Apps Script를 활용하여 Google Sheets 내에서 동아리 운영일지를 손쉽게 작성하고 관리할 수 있도록 개발한 업무 자동화 도구입니다.
+* Google Apps Script를 활용하여 Google Sheets 내에서 동아리 운영일지를 손쉽게 작성하고 관리할 수 있도록 개발한 업무 자동화 도구입니다.
 
 ---
 
